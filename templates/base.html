@@ -1,0 +1,55 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="مناسبتك علينا — دليلك للحجز والتنسيق. أماكن وخدمات المناسبات في مكان واحد.">
+  <title>{% block title %}مناسبتك علينا | دليلك للحجز والتنسيق{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/logo.jpg' %}">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="{% url 'home' %}">
+      <img src="{% static 'images/logo.jpg' %}" alt="شعار مناسبتك علينا">
+      <span><strong>مناسبتك علينا</strong><small>دليلك للحجز والتنسيق</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="فتح القائمة" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <nav class="nav-links">
+      <a href="{% url 'home' %}">الرئيسية</a>
+      <a href="{% url 'venue_list' %}">الأماكن</a>
+      <a href="{% url 'request_create' %}">خطط مناسبتك</a>
+      <a class="nav-cta" href="{% url 'request_create' %}">ابدأ الآن <span>←</span></a>
+    </nav>
+  </div>
+</header>
+<main>
+{% if messages %}
+<div class="container messages">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <div class="container footer-inner">
+    <div><strong>مناسبتك علينا</strong><p>أنت احكي شو مناسبتك، وإحنا بنرتب الباقي.</p></div>
+    <div class="footer-links"><a href="{% url 'venue_list' %}">استكشف الأماكن</a><a href="{% url 'request_create' %}">اطلب تنسيق مناسبتك</a><a href="/admin/">دخول الإدارة</a></div>
+  </div>
+  <div class="copyright">© {% now "Y" %} مناسبتك علينا — جميع الحقوق محفوظة</div>
+</footer>
+<footer class="site-footer" dir="rtl">
+    <p>مناسبتك علينا — دليلك للحجز والتنسيق</p>
+
+    <p>
+        تصميم وتطوير:
+        <strong>المهندس بهاء الدين سعيد</strong>
+    </p>
+
+    <p>
+        جميع الحقوق محفوظة &copy; 2026
+        <span>مناسبتك علينا</span>
+    </p>
+</footer>
+</body>
+</html>

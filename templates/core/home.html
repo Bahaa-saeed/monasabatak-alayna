@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><i></i> كل تفاصيل مناسبتك في مكان واحد</span>
+      <h1>مناسبتك علينا،<br><em>من أول فكرة</em> لآخر تفصيلة.</h1>
+      <p>بدل ما تضيع وقتك بين القاعات والمطاعم ومحلات الكيك، احكيلنا شو مناسبتك وإحنا بنساعدك تلاقي الخيارات المناسبة لميزانيتك.</p>
+      <div class="hero-actions"><a class="btn btn-primary" href="{% url 'request_create' %}">خطط مناسبتك الآن <span>←</span></a><a class="btn btn-light" href="{% url 'venue_list' %}">استكشف الأماكن</a></div>
+      <div class="hero-proof"><span class="proof-icon">✓</span><span>خيارات تناسب ميزانيتك</span><b></b><span>تنسيق أسهل وأسرع</span></div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-card card-top"><span>✦</span><div><strong>كل شيء بمكان واحد</strong><small>مكان • ضيافة • ديكور • تصوير</small></div></div>
+      <div class="logo-frame"><img src="{% static 'images/logo.jpg' %}" alt="مناسبتك علينا"></div>
+      <div class="hero-card card-bottom"><span class="check-badge">✓</span><div><strong>إنت اختار… وإحنا ننسّق</strong><small>خطوات بسيطة ومريحة</small></div></div>
+      <div class="decor decor-one">✧</div><div class="decor decor-two">✦</div>
+    </div>
+  </div>
+</section>
+<section class="quick-search">
+  <form class="search-panel container" action="{% url 'venue_list' %}" method="get">
+    <div class="search-heading"><span class="search-symbol">⌕</span><div><strong>دور على المكان المناسب</strong><small>ابدأ بتفاصيل بسيطة</small></div></div>
+    <label>المدينة أو المنطقة<input name="city" placeholder="مثال: النصيرات، غزة"></label>
+    <label>عدد الأشخاص<input name="guests" type="number" min="1" placeholder="50 شخص"></label>
+    <button class="btn btn-primary" type="submit">ابحث عن مكان <span>←</span></button>
+  </form>
+</section>
+<section class="section container">
+  <div class="section-heading"><div><span class="eyebrow">مناسبتك تستاهل</span><h2>لكل مناسبة… حكاية</h2><p>سواء كانت لحظة عائلية أو فعالية عمل، نساعدك ترتب التفاصيل.</p></div></div>
+  <div class="occasion-grid">
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon pink">♡</span><strong>خطوبة وأفراح</strong><small>مكان يليق بفرحتك</small></a>
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon gold">✧</span><strong>أعياد الميلاد</strong><small>تفاصيل تصنع الذكرى</small></a>
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon lilac">✦</span><strong>تخرج ونجاح</strong><small>احتفل بإنجازك</small></a>
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon mint">▦</span><strong>فعاليات الشركات</strong><small>اجتماعات وورش عمل</small></a>
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon peach">✿</span><strong>استقبال مولود</strong><small>فرحة جديدة في العائلة</small></a>
+    <a class="occasion-card" href="{% url 'request_create' %}"><span class="occasion-icon blue">＋</span><strong>أيام طبية وتدريب</strong><small>تنسيق يناسب احتياجك</small></a>
+  </div>
+</section>
+<section class="section section-tint">
+ <div class="container">
+  <div class="section-heading row-heading"><div><span class="eyebrow">اكتشف خياراتك</span><h2>أماكن ممكن تعجبك</h2><p>استكشف الأماكن المسجلة على المنصة.</p></div><a class="text-link" href="{% url 'venue_list' %}">عرض كل الأماكن ←</a></div>
+  <div class="venue-grid">
+  {% for venue in venues %}
+    <a class="venue-card" href="{% url 'venue_detail' venue.pk %}">
+      <div class="venue-image">{% if venue.image %}<img src="{{ venue.image.url }}" alt="{{ venue.name }}">{% else %}<div class="image-placeholder"><span>✧</span><small>مساحة لفرحتك القادمة</small></div>{% endif %}<span class="venue-type">{{ venue.get_venue_type_display }}</span></div>
+      <div class="venue-body"><div class="venue-location">⌖ {{ venue.city }}{% if venue.area %}، {{ venue.area }}{% endif %}</div><h3>{{ venue.name }}</h3><div class="venue-meta"><span>♧ حتى {{ venue.capacity }} شخص</span><strong>من {{ venue.price_from|floatformat:0 }} ₪</strong></div></div>
+    </a>
+  {% empty %}
+    <div class="empty-state"><span>✧</span><h3>قريبًا ستجد خياراتنا هنا</h3><p>نعمل على إضافة الأماكن والخدمات. يمكنك تقديم طلبك الآن وسنتواصل معك.</p><a class="btn btn-primary" href="{% url 'request_create' %}">اطلب تنسيق مناسبتك</a></div>
+  {% endfor %}
+  </div>
+ </div>
+</section>
+<section class="section container">
+  <div class="section-heading"><span class="eyebrow">ببساطة وراحة</span><h2>كيف بتشتغل معنا؟</h2><p>ثلاث خطوات، وتبدأ مناسبتك تاخذ شكلها.</p></div>
+  <div class="steps-grid">
+    <div class="step"><span class="step-number">01</span><div class="step-icon">✎</div><h3>احكيلنا شو بدك</h3><p>حدد نوع المناسبة، العدد، التاريخ، المدينة والميزانية.</p></div>
+    <div class="step"><span class="step-number">02</span><div class="step-icon">⌕</div><h3>استلم خياراتك</h3><p>نراجع طلبك ونجهز لك الخيارات المتاحة والأسعار المقترحة.</p></div>
+    <div class="step"><span class="step-number">03</span><div class="step-icon">♡</div><h3>إحنا بننسّق الباقي</h3><p>بعد اختيارك، نتابع تأكيد المكان والخدمات معك.</p></div>
+  </div>
+</section>
+<section class="cta-section container"><div><span class="eyebrow">جاهز تبدأ؟</span><h2>خلّي التخطيط علينا،<br>واستمتع بلحظتك.</h2><p>كل اللي عليك تحكيلنا شو المناسبة… والباقي بنرتبه سوا.</p></div><a class="btn btn-gold" href="{% url 'request_create' %}">قدّم طلبك الآن <span>←</span></a><div class="cta-spark">✧</div></section>
+{% endblock %}

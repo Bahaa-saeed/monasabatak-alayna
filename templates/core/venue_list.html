@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}الأماكن | مناسبتك علينا{% endblock %}
+{% block content %}
+<section class="page-banner"><div class="container"><span class="eyebrow">اختار المكان اللي يشبه مناسبتك</span><h1>اكتشف الأماكن</h1><p>قاعات، مطاعم، كافيهات وشاليهات — خياراتك تبدأ من هنا.</p></div></section>
+<section class="container listing-wrap">
+<form class="filter-panel" method="get">
+ <label>ابحث بالاسم أو المنطقة<input name="q" value="{{ q }}" placeholder="اسم المكان أو الحي"></label>
+ <label>المدينة<input name="city" value="{{ city }}" placeholder="المدينة"></label>
+ <label>نوع المكان<select name="type"><option value="">كل الأنواع</option>{% for value,label in venue_types %}<option value="{{ value }}" {% if selected_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+ <label>عدد الأشخاص<input type="number" min="1" name="guests" value="{{ guests }}" placeholder="مثال: 50"></label>
+ <button class="btn btn-primary" type="submit">تطبيق البحث</button>
+</form>
+<div class="listing-top"><h2>الأماكن المتاحة على المنصة</h2><span>{{ venues|length }} نتيجة</span></div>
+<div class="venue-grid">
+{% for venue in venues %}
+<a class="venue-card" href="{% url 'venue_detail' venue.pk %}">
+<div class="venue-image">{% if venue.image %}<img src="{{ venue.image.url }}" alt="{{ venue.name }}">{% else %}<div class="image-placeholder"><span>✧</span><small>مساحة لفرحتك القادمة</small></div>{% endif %}<span class="venue-type">{{ venue.get_venue_type_display }}</span></div>
+<div class="venue-body"><div class="venue-location">⌖ {{ venue.city }}{% if venue.area %}، {{ venue.area }}{% endif %}</div><h3>{{ venue.name }}</h3><div class="venue-meta"><span>♧ حتى {{ venue.capacity }} شخص</span><strong>من {{ venue.price_from|floatformat:0 }} ₪</strong></div></div>
+</a>
+{% empty %}<div class="empty-state"><span>⌕</span><h3>ما لقينا أماكن مطابقة</h3><p>جرّب تغيّر خيارات البحث أو قدّم طلب تنسيق وسنساعدك يدويًا.</p><a class="btn btn-primary" href="{% url 'request_create' %}">اطلب المساعدة</a></div>{% endfor %}
+</div>
+</section>
+{% endblock %}

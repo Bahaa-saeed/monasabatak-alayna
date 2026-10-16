@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}تم استلام طلبك | مناسبتك علينا{% endblock %}
+{% block content %}
+<section class="success-wrap container">
+<div class="success-card"><div class="success-icon">✓</div><span class="eyebrow">وصلنا طلبك بنجاح</span><h1>شكرًا {{ event_request.customer_name }}!</h1><p>استلمنا تفاصيل مناسبتك، وسيقوم فريقنا بمراجعتها والتواصل معك لمناقشة الخيارات المتاحة.</p><div class="reference-box"><small>الرقم المرجعي لطلبك</small><strong>{{ event_request.reference }}</strong><span>احتفظ بالرقم للرجوع إلى طلبك عند التواصل معنا.</span></div><div class="summary-box"><div><span>نوع المناسبة</span><strong>{{ event_request.get_event_type_display }}</strong></div><div><span>التاريخ</span><strong>{{ event_request.event_date|date:"Y/m/d" }}</strong></div><div><span>عدد الأشخاص</span><strong>{{ event_request.guest_count }}</strong></div><div><span>الميزانية</span><strong>{{ event_request.budget|floatformat:0 }} شيكل</strong></div></div><p class="fine-print">هذا تأكيد باستلام الطلب فقط، وليس تأكيدًا نهائيًا للحجز أو السعر.</p><a class="btn btn-primary" href="{% url 'home' %}">العودة للرئيسية</a></div>
+</section>
+{% endblock %}

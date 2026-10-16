@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}خطط مناسبتك | مناسبتك علينا{% endblock %}
+{% block content %}
+<section class="page-banner"><div class="container"><span class="eyebrow">خطوة واحدة أقرب لمناسبتك</span><h1>احكيلنا عن مناسبتك</h1><p>املأ التفاصيل، وفريقنا يراجع طلبك ويجهز الخيارات المناسبة.</p></div></section>
+<section class="container form-layout">
+<div class="form-aside"><div class="aside-icon">♡</div><h2>إنت احكي شو بدك، وإحنا بنرتب الباقي.</h2><p>كل ما كانت التفاصيل أوضح، قدرنا نساعدك بشكل أفضل.</p><ul><li>✓ خيارات تناسب ميزانيتك</li><li>✓ مكان وخدمات في طلب واحد</li><li>✓ متابعة من فريق التنسيق</li></ul><div class="aside-note"><strong>معلومة مهمة</strong><p>إرسال الطلب مجاني ولا يعني تأكيد الحجز. سنتواصل معك لتأكيد التفاصيل والأسعار.</p></div></div>
+<form method="post" class="request-form">
+{% csrf_token %}
+{% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+<div class="form-section-title"><span>01</span><div><h2>معلومات التواصل</h2><p>كيف نقدر نتواصل معك؟</p></div></div>
+<div class="form-grid">
+{% for field in form %}
+{% if field.name == "customer_name" or field.name == "phone" or field.name == "email" %}
+<div class="field {% if field.name == 'email' %}field-full{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<b>*</b>{% endif %}</label>{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>
+{% endif %}
+{% endfor %}
+</div>
+<div class="form-section-title"><span>02</span><div><h2>تفاصيل المناسبة</h2><p>ساعدنا نفهم احتياجك.</p></div></div>
+<div class="form-grid">
+{% for field in form %}
+{% if field.name == "event_type" or field.name == "city" or field.name == "area" or field.name == "event_date" or field.name == "guest_count" or field.name == "budget" %}
+<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<b>*</b>{% endif %}</label>{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>
+{% endif %}
+{% endfor %}
+</div>
+<div class="form-section-title"><span>03</span><div><h2>الخدمات والتفاصيل الإضافية</h2><p>اختر ما تحتاجه واترك الباقي علينا.</p></div></div>
+{% for field in form %}
+{% if field.name == "requested_services" %}
+<div class="field field-full"><label>{{ field.label }}</label><div class="service-options">{% for checkbox in field %}<label class="service-option">{{ checkbox.tag }}<span>{{ checkbox.choice_label }}</span></label>{% empty %}<p class="muted">ستظهر الخدمات هنا عند إضافتها من الإدارة.</p>{% endfor %}</div>{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>
+{% elif field.name == "notes" %}
+<div class="field field-full"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>
+{% endif %}
+{% endfor %}
+<label class="privacy-check"><input type="checkbox" required> أوافق على استخدام بياناتي للتواصل معي بخصوص هذا الطلب.</label>
+<button class="btn btn-primary submit-btn" type="submit">إرسال طلب التنسيق <span>←</span></button>
+<p class="form-footnote">الحقول المعلّمة بـ * مطلوبة. لا يتم تأكيد الحجز بمجرد إرسال الطلب.</p>
+</form>
+</section>
+{% endblock %}

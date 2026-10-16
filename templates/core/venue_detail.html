@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ venue.name }} | مناسبتك علينا{% endblock %}
+{% block content %}
+<section class="container detail-wrap">
+<a class="back-link" href="{% url 'venue_list' %}">→ العودة إلى الأماكن</a>
+<div class="detail-grid">
+<div class="detail-photo">{% if venue.image %}<img src="{{ venue.image.url }}" alt="{{ venue.name }}">{% else %}<div class="image-placeholder large"><span>✧</span><small>مساحة لفرحتك القادمة</small></div>{% endif %}</div>
+<div class="detail-info"><span class="pill">{{ venue.get_venue_type_display }}</span><h1>{{ venue.name }}</h1><p class="detail-location">⌖ {{ venue.city }}{% if venue.area %}، {{ venue.area }}{% endif %}{% if venue.address %} — {{ venue.address }}{% endif %}</p><div class="detail-price">يبدأ السعر من <strong>{{ venue.price_from|floatformat:0 }} شيكل</strong></div><div class="detail-facts"><div><small>السعة القصوى</small><strong>{{ venue.capacity }} شخص</strong></div><div><small>المدينة</small><strong>{{ venue.city }}</strong></div></div><a class="btn btn-primary full-btn" href="{% url 'request_create' %}">اطلب الحجز والتنسيق <span>←</span></a><p class="fine-print">السعر والتوفر مبدئيان، ويجري تأكيدهما مع المكان قبل اعتماد الحجز.</p></div>
+</div>
+<div class="detail-description"><h2>عن المكان</h2><p>{{ venue.description|default:"لم تتم إضافة وصف لهذا المكان بعد."|linebreaksbr }}</p>{% if venue.facilities %}<h3>المرافق والخدمات</h3><p>{{ venue.facilities|linebreaksbr }}</p>{% endif %}</div>
+</section>
+{% endblock %}
