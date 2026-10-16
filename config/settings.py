@@ -3,7 +3,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "dev-only-change-this-secret-key-before-deployment"
 DEBUG = True
 ALLOWED_HOSTS = [
-    "monasabatak-alayna-3.onrender.com",
+    ".onrender.com",
     "localhost",
     "127.0.0.1",
 ]
